@@ -39,7 +39,7 @@ plenty.setCreditials({
 
 plenty.post("https://"+config.curlPlentyMainDomain+"/plenty/api/ui.php", {foo: "bar"}, function(callResult){
 	if(callResult.success === true){
-		if(typeof callResult.resultObjects == "array"){
+		if(typeof callResult.resultObjects == "object"){
 			if(callResult.resultObjects[0]._exceptionFound == false){
 				console.log("Imported Layout From Dropbox");
 			}
