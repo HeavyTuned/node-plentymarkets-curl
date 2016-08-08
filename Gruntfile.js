@@ -2,6 +2,9 @@ module.exports = function(grunt) {
 
 	grunt.initConfig({
 		jshint: {
+			options: {
+				esversion: 6
+			},
 			files: ['plentymarkets.js']
 		}
 	});
