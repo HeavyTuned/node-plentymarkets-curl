@@ -71,6 +71,15 @@ every callback object is build in this style.
 		exception: object (error object from curl or plentymarkets)
 	}
 ```
+###new PlentyCurlAPI()
+initializes a new api object
+```javascript
+
+var PlentyCurlAPI = require("node-plentymarkets-curl");
+var plenty = new PlentyCurlAPI();
+
+```
+
 ###setCreditials
 sets the login data for the calls
 Example:
@@ -82,6 +91,16 @@ plenty.setCreditials({
 	password: config.curlLoginPassword,
 	user: config.curlLoginUserName,
 });
+```
+
+###setDebug(boolean)
+display each call response as prettyfied JSON through console.log();
+
+Example:
+
+```javascript
+
+plenty.setDebug(true);
 ```
 
 ### post(url, dataObject, callback(responseObject))
@@ -112,14 +131,26 @@ Example:
 
 ```javascript
 
-//imports a Layout from Dropbox
-plenty.get("https://myPlentyDomain.de/plenty/api/ui.php", {foo: "bar"}, function(callResult){
-	if(callResult.success === true){
-		if(typeof callResult.resultObjects == "array"){
-			if(callResult.resultObjects[0]._exceptionFound == false){
-				console.log("Created new Rack");
-			}
-		}
+//registers orders at DHL intraship
+plenty.get("https://www.myPlentyDomain.de/plenty/admin/gui_call.php",{
+	"Object" : "mod_order/shipmentcenter2@GuiAjaxShipmentCenterRegister",
+	"Params[gui]" : "ajaxRegisterOrders",
+	"Params[result_id]" : "shipmenty_center_register_result_pane",
+	"gwt_tab_id" : "1",
+	"presenter_id": "",
+	"selection" : myOrderArray.join(","),
+	"PageConfig[param]" : "search",
+	"PageConfig[name]" : "_PC_GuiShipmentCenterBase",
+	"exec.png" : "exec.png",
+	"registerShipment[shipping_provider]" : "DhlIntraship",
+	"addParam[status_to]" : "0",
+	"addParam[shippingDate]" : new moment().format("DD.MM.YYYY"),
+	"ignorePspList" : "1",
+	"addParam[billing_nr]" : "0000000000_00_00",
+	"addParam[service_option]" : "auto"
+}, function(out){
+	if(out.success){
+		//handle XML result
 	}
-});
+})
 ```
