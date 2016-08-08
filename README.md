@@ -13,11 +13,15 @@ A Curl API for Plentymarkets-Backend
 ```npm install node-plentymarkets-curl --save```
 
 ## Limits
-to prevent heavy load we're limiting the calls to one call per second.
+to prevent heavy load on the backend we're limiting the calls to one call per second - this should be enough for most use cases.
 
 ## Login
 either you can call plenty.login(); before each start or let the script fire the request without logging in. This should result in an UINotLoggedInException exception if your cookie data is invalid.  
-The API automatically relogs the user by calling login() and repeats your last call.
+The API automatically relogs the user by calling login() and repeats your last call.  
+The Backend automatically blocks the user after too many login attempts within a short time.
+
+## How do I get the required request parameters and url?
+You can use your Chrome Developer Console and manually fire a request in your plantymarts backend and log it in the Networking / XHR section
 
 ### Simple Request
 ```javascript
@@ -33,7 +37,7 @@ plenty.setCreditials({
 	user: config.curlLoginUserName,
 });
 
-plenty.post("https://"+config.config.curlPlentyMainDomain+"/plenty/api/ui.php", {request: '{"requests":[{"_dataName":"TemplateImportTemplate", "_moduleName":"cms/template/import", "_searchParams":{}, "_writeParams":{"designName":"Calisto", "lang":"de", "importAll":false}, "_validateParams":{}, "_commandStack":[{"type":"write", "command":"writeFromDropbox"}], "_dataArray":{}, "_dataList":{}}], "meta":{"id":3}}'}, function(callResult){
+plenty.post("https://"+config.config.curlPlentyMainDomain+"/plenty/api/ui.php", {foo: "bar"}, function(callResult){
 	if(callResult.success === true){
 		if(typeof callResult.resultObjects == "array"){
 			if(callResult.resultObjects[0]._exceptionFound == false){
@@ -47,6 +51,7 @@ plenty.post("https://"+config.config.curlPlentyMainDomain+"/plenty/api/ui.php", 
 ## API
 
 ### creditialsObject
+for logging in you have to pass a object to setCreditials with the backend domain, a username & password
 ```javascript
 	{
 		domain: string, (your main plentymarkets domain without https://)
@@ -56,6 +61,8 @@ plenty.post("https://"+config.config.curlPlentyMainDomain+"/plenty/api/ui.php", 
 ```
 
 ### responseObject
+every callback object is build in this style.
+
 ```javascript
 	{
 		success: boolean,
@@ -106,11 +113,11 @@ Example:
 ```javascript
 
 //imports a Layout from Dropbox
-plenty.post("https://myPlentyDomain.de/plenty/api/ui.php", {foo: "bar"}, function(callResult){
+plenty.get("https://myPlentyDomain.de/plenty/api/ui.php", {foo: "bar"}, function(callResult){
 	if(callResult.success === true){
 		if(typeof callResult.resultObjects == "array"){
 			if(callResult.resultObjects[0]._exceptionFound == false){
-				console.log("Imported Layout From Dropbox");
+				console.log("Created new Rack");
 			}
 		}
 	}
