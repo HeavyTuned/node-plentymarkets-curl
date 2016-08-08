@@ -37,7 +37,7 @@ plenty.setCreditials({
 	user: config.curlLoginUserName,
 });
 
-plenty.post("https://"+config.config.curlPlentyMainDomain+"/plenty/api/ui.php", {foo: "bar"}, function(callResult){
+plenty.post("https://"+config.curlPlentyMainDomain+"/plenty/api/ui.php", {foo: "bar"}, function(callResult){
 	if(callResult.success === true){
 		if(typeof callResult.resultObjects == "array"){
 			if(callResult.resultObjects[0]._exceptionFound == false){
@@ -103,7 +103,7 @@ Example:
 plenty.setDebug(true);
 ```
 
-Output:
+Output after a call:
 
 ```ShellSession
 DEBUG LOG START
