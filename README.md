@@ -67,7 +67,7 @@ every callback object is build in this style.
 	{
 		success: boolean,
 		call: string, (api call URL or login)
-		data: object, (raw response object)
+		data: object, (response object parse XML or JSON)
 		exception: object (error object from curl or plentymarkets)
 	}
 ```
@@ -102,6 +102,57 @@ Example:
 
 plenty.setDebug(true);
 ```
+
+Output:
+
+```ShellSession
+DEBUG LOG START
+success:   true
+data: 
+  plenty: 
+    block: 
+      - 
+        blockNumIndex: 
+          - 
+            data: 
+              - 
+                """
+                  
+                  	<!-- START PlentyGuiAjaxMessage  -->
+                  	<div id="ajaxRegisterOrders_Error" class="PlentyGuiAjaxMessage bar_err">
+                  		
+                  	<table id="PlentyGuiTable_1_id">
+                  		<tbody id="PlentyGuiTable_1_id_tbody">
+                  	<tr id="PlentyGuiTableRow_1_id" class="PlentyGuiTableRow">
+                  		<th id="PlentyGuiTableHead_1_id" class="PlentyGuiTableHead icon"><br />
+                  		</th>
+                  		<td id="PlentyGuiTableData_1_id" class="PlentyGuiTableData" align="left" valign="top">		
+                  	
+                  	<div id="PlentyGuiPane_1_id" class="PlentyGuiPane">
+                  		<span id="PlentyGuiText_2_id" class="bold PlentyGuiText">Code 1 : Der Vorgang konnte nicht korrekt durchgeführt werden. Bitte Dateneingabe pr�fen.<br/></span>
+                  		<span id="PlentyGuiText_1_id" class="PlentyGuiText">unknown</span>
+                  	</div>
+                  		
+                  		</td>
+                  	</tr>
+                  		</tbody>
+                  	</table>
+                  	
+                  	</div>
+                  	<!-- END PlentyGuiAjaxMessage  -->
+                  	
+                """
+            id: 
+              - shipmenty_center_register_result_pane
+            add: 
+              - 0
+            $: 
+              index: 0
+exception: 
+
+call:      https://myPlentyDomain.de/plenty/admin/gui_call.php
+DEBUG LOG END
+````
 
 ### post(url, dataObject, callback(responseObject))
 
