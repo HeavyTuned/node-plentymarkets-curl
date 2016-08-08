@@ -31,7 +31,7 @@ PlentyCurlAPI.prototype.dataObject = {
 
 PlentyCurlAPI.prototype.setDebug = function(value){
 	this.debug = value;
-}
+};
 
 PlentyCurlAPI.prototype.buildQueryString =  function(obj){
 	if(typeof obj != "object"){
@@ -58,7 +58,7 @@ PlentyCurlAPI.prototype.buildResponseObject = function(responseObject){
 		console.log(prettyjson.render(buildResponseObject));
 		console.log("DEBUG LOG END");
 	}
-	return buildResponseObject
+	return buildResponseObject;
 };
 	
 PlentyCurlAPI.prototype.prepareGetRequest = function(url, queryStringObject){
@@ -174,7 +174,7 @@ PlentyCurlAPI.prototype.setCreditials = function(creditials){
 
 PlentyCurlAPI.prototype.login = function(callback){
 	var self = this;
-	if(callback == undefined){
+	if(callback === undefined){
 		callback = function(){};
 	}
 

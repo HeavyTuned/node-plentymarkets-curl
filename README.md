@@ -71,6 +71,7 @@ every callback object is build in this style.
 		exception: object (error object from curl or plentymarkets)
 	}
 ```
+
 ###new PlentyCurlAPI()
 initializes a new api object
 ```javascript
