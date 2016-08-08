@@ -65,7 +65,7 @@ every callback object is build in this style.
 
 ```javascript
 	{
-		success: boolean,
+		success: boolean, (only validates if the request was successful and the login worked - does not validate the response result)
 		call: string, (api call URL or login)
 		data: object, (response object parse XML or JSON)
 		exception: object (error object from curl or plentymarkets)
