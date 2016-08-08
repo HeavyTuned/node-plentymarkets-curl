@@ -1,0 +1,21 @@
+{
+  "name": "node-plentymarkets-curl",
+  "version": "0.0.1",
+  "description": "A Plentymarkets Node Curl API",
+  "main": "plentymarkets.js",
+  "scripts": {
+    "test": "grunt nodeunit"
+  },
+  "repository": {
+    "type": "git",
+    "url": "github.com:HeavyTuned/node-plentymarkets-curl.git"
+  },
+  "author": "Karol Kutrowski <it@heavy-tuned.de> (https://www.heavy-tuned.de/)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/HeavyTuned/node-plentymarkets-curl/issues"
+  },
+  "dependencies": {
+    "node-libcurl": "^1.0.0"
+  }
+}
