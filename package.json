@@ -4,7 +4,7 @@
   "description": "A Plentymarkets Node Curl API",
   "main": "plentymarkets.js",
   "scripts": {
-    "test": "grunt nodeunit"
+    "test": "grunt test"
   },
   "repository": {
     "type": "git",
@@ -17,5 +17,9 @@
   },
   "dependencies": {
     "node-libcurl": "^1.0.0"
+  },
+  "devDependencies": {
+    "grunt": "^1.0.1",
+    "grunt-contrib-jshint": "^1.0.0"
   }
 }
