@@ -1,4 +1,3 @@
-"user strict";
 var util = require('util');
 var Curl = require( 'node-libcurl' ).Curl;
 var path = require( 'path' );
