@@ -104,6 +104,16 @@ Example:
 plenty.setDebug(true);
 ```
 
+###stringifyNestedObject(object)
+We need this function for some POST Requests to Plentymarkets. It makes a well formatted JSON string from your javascript object and escapes it properly
+
+Example:
+
+```javascript
+
+var requestString = 'request='+plenty.stringifyNestedObject({"requests":[{"_dataName":"TemplateImportTemplate", "_moduleName":"cms/template/import", "_searchParams":{}, "_writeParams":{"designName":options.layoutName, "lang":options.layoutLang, "importAll":false}, "_validateParams":{}, "_commandStack":[{"type":"write", "command":"writeFromDropbox"}], "_dataArray":{}, "_dataList":{}}], "meta":{"id":3}});
+```
+
 Output after a call:
 
 ```ShellSession

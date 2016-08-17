@@ -71,16 +71,24 @@ PlentyCurlAPI.prototype.prepareGetRequest = function(url, queryStringObject){
 	return curl;
 };
 	
-PlentyCurlAPI.prototype.preparePostRequest = function(url, queryStringObject){
-	var curl = new Curl();
-	var postfields = this.buildQueryString(queryStringObject);
+/*
+	We need this function since it looks that querystring.stringify() fails on nested objects
+*/
+PlentyCurlAPI.prototype.stringifyNestedObject = function(obj) {
+	return querystring.escape(JSON.stringify(obj));
+};
 	
+PlentyCurlAPI.prototype.preparePostRequest = function(url, queryString){
+	var curl = new Curl();
+	var postfields =  queryString;
 	curl.setOpt( Curl.option.URL, url );
 	curl.setOpt( Curl.option.USERAGENT, this.userAgent );
 	curl.setOpt( Curl.option.FOLLOWLOCATION, true );
 	curl.setOpt( Curl.option.COOKIEFILE, this.cookieJarFileName );
 	curl.setOpt( Curl.option.POST, 1 );
 	curl.setOpt( Curl.option.POSTFIELDS, postfields );
+	curl.setOpt( Curl.option.POSTFIELDSIZE, postfields.length );
+	curl.setOpt( Curl.option.HTTPHEADER, ['Content-Type: application/x-www-form-urlencoded; charset=UTF-8'] );
 
 	return curl;
 };
