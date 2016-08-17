@@ -16,10 +16,10 @@
     "url": "https://github.com/HeavyTuned/node-plentymarkets-curl/issues"
   },
   "dependencies": {
-    "node-libcurl": "^1.0.0",
     "limiter": "1.1.0",
-    "node-libcurl":"1.0.0",
-    "prettyjson":"1.1.3"
+    "node-libcurl": "1.0.0",
+    "prettyjson": "1.1.3",
+    "xml2js": "^0.4.17"
   },
   "devDependencies": {
     "grunt": "^1.0.1",
