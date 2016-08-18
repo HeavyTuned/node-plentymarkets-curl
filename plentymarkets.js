@@ -22,6 +22,8 @@ PlentyCurlAPI.prototype.userAgent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_1
 
 PlentyCurlAPI.prototype.cookieJarFileName = "cookiejar.txt";
 
+PlentyCurlAPI.prototype.plentyUserID = 0;
+
 PlentyCurlAPI.prototype.dataObject = {
 	success: false,
 	data: {},
@@ -30,6 +32,14 @@ PlentyCurlAPI.prototype.dataObject = {
 
 PlentyCurlAPI.prototype.setDebug = function(value){
 	this.debug = value;
+};
+
+PlentyCurlAPI.prototype.setUserID = function(id){
+	PlentyCurlAPI.prototype.plentyUserID = id;
+};
+
+PlentyCurlAPI.prototype.getUserID = function(){
+	return PlentyCurlAPI.prototype.plentyUserID;
 };
 
 PlentyCurlAPI.prototype.buildQueryString =  function(obj){
@@ -155,6 +165,7 @@ PlentyCurlAPI.prototype.loginWasSuccessful = function(response){
 		if(response.resultObjects[0]._exceptionFound === false){
 			if(response.resultObjects[0]._data.length >0){
 				if(response.resultObjects[0]._data[0]._dataArray.isValid === true){
+					PlentyCurlAPI.prototype.setUserID(response.resultObjects[0]._data[0]._dataArray.userId);
 					return true;
 				}
 			}
