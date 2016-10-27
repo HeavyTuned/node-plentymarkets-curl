@@ -104,6 +104,26 @@ Example:
 plenty.setDebug(true);
 ```
 
+###getUserToken()
+returns the CSRF token of the current logged in user, is required for some calls
+
+Example:
+
+```javascript
+
+plenty.setgetUserToken();
+```
+
+###getUserID(boolean)
+returns the ID of the current logged in user, is required for some calls
+
+Example:
+
+```javascript
+
+plenty.getUserID();
+```
+
 ###stringifyNestedObject(object)
 We need this function for some POST Requests to Plentymarkets. It makes a well formatted JSON string from your javascript object and escapes it properly
 
