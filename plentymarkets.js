@@ -13,7 +13,7 @@ function PlentyCurlAPI() {}
 
 PlentyCurlAPI.prototype.requiredCreditials = ["domain","password","user"];
 PlentyCurlAPI.prototype.debug = false;
-	
+
 PlentyCurlAPI.prototype.currentCreditialsSet = false;
 
 PlentyCurlAPI.prototype.currentCreditials  = {};
@@ -78,7 +78,7 @@ PlentyCurlAPI.prototype.buildResponseObject = function(responseObject){
 	}
 	return buildResponseObject;
 };
-	
+
 PlentyCurlAPI.prototype.prepareGetRequest = function(url, queryStringObject){
 	var curl = new Curl();
 	url = url+"?"+this.buildQueryString(queryStringObject);
@@ -89,14 +89,14 @@ PlentyCurlAPI.prototype.prepareGetRequest = function(url, queryStringObject){
 	curl.setOpt( Curl.option.COOKIEFILE, this.cookieJarFileName );
 	return curl;
 };
-	
+
 /*
 	We need this function since it looks that querystring.stringify() fails on nested objects
 */
 PlentyCurlAPI.prototype.stringifyNestedObject = function(obj) {
 	return querystring.escape(JSON.stringify(obj));
 };
-	
+
 PlentyCurlAPI.prototype.preparePostRequest = function(url, queryString){
 	var curl = new Curl();
 	var postfields =  queryString;
@@ -111,14 +111,14 @@ PlentyCurlAPI.prototype.preparePostRequest = function(url, queryString){
 
 	return curl;
 };
-	
+
 PlentyCurlAPI.prototype.prepareLoginRequest = function(){
 	var curl = new Curl();
-	var url = "https://"+this.currentCreditials.domain+"/plenty/api/ui.php?request={%22requests%22%3A[{%22_dataName%22%3A%22PlentyMarketsLogin%22%2C%20%22_moduleName%22%3A%22user%2Flogin%22%2C%20%22_searchParams%22%3A{%22username%22%3A%22"+this.currentCreditials.user+"%22%2C%20%22password%22%3A%22"+this.currentCreditials.password+"%22%2C%20%22lang%22%3A%22de%22%2C%20%22secureLogin%22%3Atrue%2C%20%22isGWT%22%3Atrue}%2C%20%22_writeParams%22%3A{}%2C%20%22_commandStack%22%3A[{%22type%22%3A%22read%22%2C%20%22command%22%3A%22read%22}]%2C%20%22_dataArray%22%3A{}%2C%20%22_dataList%22%3A{}}]%2C%20%22meta%22%3A{}}";
+	var url = this.currentCreditials.domain+"/plenty/api/ui.php?request={%22requests%22%3A[{%22_dataName%22%3A%22PlentyMarketsLogin%22%2C%20%22_moduleName%22%3A%22user%2Flogin%22%2C%20%22_searchParams%22%3A{%22username%22%3A%22"+this.currentCreditials.user+"%22%2C%20%22password%22%3A%22"+this.currentCreditials.password+"%22%2C%20%22lang%22%3A%22de%22%2C%20%22secureLogin%22%3Atrue%2C%20%22isGWT%22%3Atrue}%2C%20%22_writeParams%22%3A{}%2C%20%22_commandStack%22%3A[{%22type%22%3A%22read%22%2C%20%22command%22%3A%22read%22}]%2C%20%22_dataArray%22%3A{}%2C%20%22_dataList%22%3A{}}]%2C%20%22meta%22%3A{}}";
 	curl.setOpt( Curl.option.URL, url );
 	curl.setOpt( Curl.option.USERAGENT, this.userAgent );
 	curl.setOpt( Curl.option.FOLLOWLOCATION, false );
-	
+
 	curl.setOpt( Curl.option.COOKIEFILE, this.cookieJarFileName );
 	curl.setOpt( Curl.option.COOKIEJAR, this.cookieJarFileName );
 	return curl;
@@ -159,7 +159,7 @@ PlentyCurlAPI.prototype.buildRequestCallback = function(curl, url, callback){
 			this.close();
 			return false;
 		});
-		
+
 		curl.on( 'error', function(err, curlErrCode){
 			callback(self.buildResponseObject({call: url, success: false, exception: err}));
 			this.close();
@@ -175,7 +175,7 @@ PlentyCurlAPI.prototype.loginWasSuccessful = function(response){
 			if(response.resultObjects[0]._data.length >0){
 				if(response.resultObjects[0]._data[0]._dataArray.isValid === true){
 					PlentyCurlAPI.prototype.setUserID(response.resultObjects[0]._data[0]._dataArray.userId);
-					
+
 					PlentyCurlAPI.prototype.setUserToken(response.resultObjects[0]._data[0]._dataArray.csrfToken);
 					return true;
 				}
@@ -189,14 +189,16 @@ PlentyCurlAPI.prototype.setCreditials = function(creditials){
 	if(creditials === undefined){
 		throw("ERROR: Missing Creditials Object {domain:string, password:string, user:string}");
 	}
-	
-	this.requiredCreditials.forEach(function(cred){
 
+	this.requiredCreditials.forEach(function(cred){
 		if(creditials[cred] === undefined){
 			throw("ERROR: Missing Creditial: "+cred);
 		}
 	});
-	
+
+	if(creditials.domain.indexOf("http") == -1){
+		throw("ERROR: creditials.domain now requires a full http:// / https path!");
+	}
 	this.currentCreditials = creditials;
 	this.currentCreditialsSet = true;
 };
@@ -217,7 +219,7 @@ PlentyCurlAPI.prototype.login = function(callback){
 	if ( !fs.existsSync( this.cookieJarFileName ) ) {
 		fs.writeFileSync( this.cookieJarFileName );
 	}
-	
+
 	this.apiRequest(function(){
 		curl.on( 'end', function(code, body) {
 			try{
@@ -238,16 +240,16 @@ PlentyCurlAPI.prototype.login = function(callback){
 			this.close();
 			return false;
 		});
-		
+
 		curl.on( 'error', function(err, curlErrCode){
 			callback(self.buildResponseObject({call: "login", success: false, exception: err}));
 			this.close();
 		} );
-		
+
 		curl.perform();
 	});
 };
-	
+
 PlentyCurlAPI.prototype.post = function(url, data, callback){
 	var self = this;
 	var curl = this.preparePostRequest(url, data);
@@ -261,7 +263,7 @@ PlentyCurlAPI.prototype.get = function(url, data, callback){
 	var requestCallback = this.buildRequestCallback(curl, url, callback);
 	this.apiRequest(requestCallback);
 };
-	
+
 PlentyCurlAPI.prototype.apiRequest = function(func){
 	limiter.removeTokens(1, function(err, remainingRequests) {
 		func();
