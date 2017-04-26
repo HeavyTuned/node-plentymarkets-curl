@@ -53,7 +53,7 @@ PlentyCurlAPI.prototype.getUserToken = function(){
 
 PlentyCurlAPI.prototype.buildQueryString =  function(obj){
 	if(typeof obj != "object"){
-		throw("ERROR: buildQueryString argument should be either an object or array");
+		console.error("ERROR: buildQueryString argument should be either an object or array");
 	}
 	return querystring.stringify(obj);
 };
@@ -187,17 +187,16 @@ PlentyCurlAPI.prototype.loginWasSuccessful = function(response){
 
 PlentyCurlAPI.prototype.setCreditials = function(creditials){
 	if(creditials === undefined){
-		throw("ERROR: Missing Creditials Object {domain:string, password:string, user:string}");
+		console.log("ERROR: Missing Creditials Object {domain:string, password:string, user:string}");
 	}
 
 	this.requiredCreditials.forEach(function(cred){
 		if(creditials[cred] === undefined){
-			throw("ERROR: Missing Creditial: "+cred);
+			console.log("ERROR: Missing Creditial: "+cred);
 		}
 	});
-
 	if(creditials.domain.indexOf("http") == -1){
-		throw("ERROR: creditials.domain now requires a full http:// / https path!");
+		console.log("ERROR: creditials.domain now requires a full http:// / https path!");
 	}
 	this.currentCreditials = creditials;
 	this.currentCreditialsSet = true;
@@ -210,7 +209,7 @@ PlentyCurlAPI.prototype.login = function(callback){
 	}
 
 	if(this.currentCreditialsSet === false){
-		throw("ERROR: You need call setCreditials first before you can login");
+		console.error("ERROR: You need call setCreditials first before you can login");
 	}
 
 	var cookieJarFile = path.join( __dirname, this.cookieJarFileName);
