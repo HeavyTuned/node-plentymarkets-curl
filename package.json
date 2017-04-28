@@ -1,6 +1,6 @@
 {
 	"name": "node-plentymarkets-curl",
-	"version": "0.0.9",
+	"version": "0.0.10",
 	"description": "A Plentymarkets Node Curl API",
 	"main": "plentymarkets.js",
 	"scripts": {

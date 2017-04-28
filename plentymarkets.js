@@ -12,6 +12,7 @@ const querystring = require('querystring');
 function PlentyCurlAPI() {}
 
 PlentyCurlAPI.prototype.requiredCreditials = ["domain","password","user"];
+
 PlentyCurlAPI.prototype.debug = false;
 
 PlentyCurlAPI.prototype.currentCreditialsSet = false;
@@ -23,6 +24,7 @@ PlentyCurlAPI.prototype.userAgent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_1
 PlentyCurlAPI.prototype.cookieJarFileName = "cookiejar.txt";
 
 PlentyCurlAPI.prototype.plentyUserID = 0;
+
 PlentyCurlAPI.prototype.plentyCSRFToken = 0;
 
 PlentyCurlAPI.prototype.dataObject = {
@@ -135,7 +137,7 @@ PlentyCurlAPI.prototype.buildRequestCallback = function(curl, url, callback){
 						var response = JSON.parse(body);
 						if(response.class !== undefined && response.class == "UINotLoggedInException"){
 							self.login(function(loginTest){
-								if(loginTest.sucess === true){
+								if(loginTest.success === true){
 									self.apiRequest(requestCallback);
 								}else{
 									callback(self.buildResponseObject({call: "login", success: false, data:loginTest}));
@@ -252,6 +254,11 @@ PlentyCurlAPI.prototype.login = function(callback){
 PlentyCurlAPI.prototype.post = function(url, data, callback){
 	var self = this;
 	var curl = this.preparePostRequest(url, data);
+	if(self.debug == true){
+		console.log("DEBUG REQUEST POST LOG START");
+		console.log(prettyjson.render(data));
+		console.log("DEBUG REQUEST POST LOG END");
+	}
 	var requestCallback = this.buildRequestCallback(curl, url, callback);
 	this.apiRequest(requestCallback);
 };
@@ -259,6 +266,11 @@ PlentyCurlAPI.prototype.post = function(url, data, callback){
 PlentyCurlAPI.prototype.get = function(url, data, callback){
 	var self = this;
 	var curl = this.prepareGetRequest(url, data);
+	if(self.debug == true){
+		console.log("DEBUG REQUEST GET LOG START");
+		console.log(prettyjson.render(data));
+		console.log("DEBUG REQUEST GET LOG END");
+	}
 	var requestCallback = this.buildRequestCallback(curl, url, callback);
 	this.apiRequest(requestCallback);
 };
